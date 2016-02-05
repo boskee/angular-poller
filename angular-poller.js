@@ -151,6 +151,20 @@
                 }
 
                 /**
+                 * Check if both objects are equal.
+                 *
+                 * @param firstObj
+                 * @param secondObj
+                 */
+                function isEqual(firstObj, secondObj) {
+                    if (firstObj.hasOwnProperty('restangularized') && secondObj.hasOwnProperty('restangularized')) {
+                        return firstObj.route === secondObj.route && (firstObj.restangularCollection === secondObj.restangularCollection) &&  (firstObj.restangularCollection ? true : firstObj.id === secondObj.id);
+                    } else {
+                        return angular.equals(firstObj, secondObj);
+                    }
+                }
+
+                /**
                  * Find poller by target in poller registry if
                  * pollerConfig.neverOverwrite is set to false (default).
                  * Otherwise return null to prevent overwriting existing pollers.
@@ -162,7 +176,7 @@
                     var poller = null;
                     if (!pollerConfig.neverOverwrite) {
                         angular.forEach(pollers, function(item) {
-                            if (angular.equals(item.target, target)) {
+                            if (isEqual(item.target, target)) {
                                 poller = item;
                             }
                         });
